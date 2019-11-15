@@ -11,6 +11,6 @@ then
 else
   echo "Promoting Release $RELEASE"
   export CONVOX_RACK=$INPUT_RACK
-  convox releases promote $RELEASE --app $INPUT_APP
+  convox releases promote $RELEASE --app $INPUT_APP --wait
 fi
 
