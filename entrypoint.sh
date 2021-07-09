@@ -1,16 +1,8 @@
 #!/bin/sh
-#!/bin/sh
-if [ -n "$INPUT_RELEASE" ]
-then
- export RELEASE=$INPUT_RELEASE
-fi
-if [ -z "$RELEASE" ]
-then
-  echo "Release must either be passed as input or set by running a build step"
-  exit 1
-else
-  echo "Promoting Release $RELEASE"
-  export CONVOX_RACK=$INPUT_RACK
-  convox releases promote $RELEASE --app $INPUT_APP --wait
-fi
+set -ex
 
+[ -n "${INPUT_HOST}" ] && export RACK_URL="https://convox:${INPUT_PASSWORD}@${INPUT_HOST}"
+[ -n "${INPUT_PASSWORD}" ] && export CONVOX_PASSWORD=${INPUT_PASSWORD}
+[ -n "${INPUT_RACK}" ] && export CONVOX_RACK=${INPUT_RACK}
+
+convox releases promote "${INPUT_RELEASE}" --app "${INPUT_APP}"
